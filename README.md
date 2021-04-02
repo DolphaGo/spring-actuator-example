@@ -16,6 +16,11 @@ Lastly, the latest version now supports the CRUD model as opposed to the old rea
 
 <br>
 
+- BaseURL
+```
+http://localhost:8080/actuator
+```
+
 ## /health
 
 - 어플리케이션에 대한 기본적인 정보를 제공
@@ -43,20 +48,23 @@ ex) ```http://localhost:8080/actuator/metrics/jvm.buffer.memory.used```
 http://localhost:8080/actuator/loggers
 ```
 
-
-
-
 ## /info
 ```
 http://localhost:8080/actuator/info
 ```
 
+## /shutdown
+- 기본적으로는 false로 설정되어 있음
+- shutdown 엔드포인트는 보안이 중요.
+- 만약 노출한다면 꼭 보안을 설정할 것
 
 ### 그 외의 다양한 기능들
 
 Unlike in previous versions, Actuator comes with most endpoints disabled.
 Thus, the only two available by default are /health and /info.
 If we want to enable all of them, we could set management.endpoints.web.exposure.include=*. Alternatively, we can list endpoints that should be enabled.
+
+Spec에 대해 조사하고 사용할 것
 <br/>
 
 - `/auditevents` lists security audit-related events such as user login/logout. Also, we can filter by principal or type among other fields.
