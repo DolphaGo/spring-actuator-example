@@ -14,3 +14,4 @@ public class CustomHealthIndicator extends AbstractHealthIndicator {
                .withDetail("name", "created by DolphaGo");
     }
 }
+

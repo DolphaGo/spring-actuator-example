@@ -32,13 +32,16 @@ http://localhost:8080/actuator/health
 ```
 
 ## /metrics
-- JVM memory 사용률
-- CPU usage
 ```
 http://localhost:8080/actuator/metrics
 ```
+- JVM memory 사용률
+- CPU usage
 - 메트릭에서 제공해주는 기능들은 많다. 원하는 메트릭을 check할 수 있다.
-ex) ```http://localhost:8080/actuator/metrics/jvm.buffer.memory.used```
+- 예를 들면 다음과 같다.
+ ```
+ http://localhost:8080/actuator/metrics/jvm.buffer.memory.used
+ ```
 
 
 ## /loggers
@@ -56,7 +59,7 @@ http://localhost:8080/actuator/info
 ## /shutdown
 - 기본적으로는 false로 설정되어 있음
 - shutdown 엔드포인트는 보안이 중요.
-- 만약 노출한다면 꼭 보안을 설정할 것
+- 만약 노출한다면 꼭 보안을 설정할 것(SpringSecurity)
 
 ### 그 외의 다양한 기능들
 
@@ -64,7 +67,7 @@ Unlike in previous versions, Actuator comes with most endpoints disabled.
 Thus, the only two available by default are /health and /info.
 If we want to enable all of them, we could set management.endpoints.web.exposure.include=*. Alternatively, we can list endpoints that should be enabled.
 
-Spec에 대해 조사하고 사용할 것
+Spec에 대해 조사하고 사용할 것(사용법이 다 다름)
 <br/>
 
 - `/auditevents` lists security audit-related events such as user login/logout. Also, we can filter by principal or type among other fields.

@@ -5,10 +5,13 @@ management:
   endpoints:
     web:
       exposure:
-        include: health, info, metrics,loggers # 열기
+        include: health, info, metrics,loggers, shutdown # 열기
   #        exclude: health,info # 닫기
 
   # 세부정보 표시하기
   endpoint:
     health:
       show-details: always # ex) http://localhost:8080/actuator/health/ping 으로 ping을 알아볼 수도 있다.
+
+    shutdown:
+      enabled: true # 기본적으로 닫혀있다. 테스트해보고 싶다면, 열어주자. 이는 graceful shutdown을 하게해준다. 참고로, POST method를 활용해야 한다.
