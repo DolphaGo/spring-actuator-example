@@ -1,7 +1,7 @@
 management:
 
   # Http 상에서 원하는 기능들을 포함하거나 배제할 수 있다.
-  # 모든 요청은 http://localhost:8080/actuator/{기능} 으로 확인할 수 있다.
+  # 모든 요청은 http://localhost:8080/actuator/{기능} 으로 확인할 수 있다. (HTTP 메서드는 각각 사용법이 다르다.)
   endpoints:
     web:
       exposure:

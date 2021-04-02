@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,7 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Configuration
+@EnableWebSecurity
 public class ActuatorSecurityConfig extends WebSecurityConfigurerAdapter {
 
     /*
@@ -32,27 +33,26 @@ public class ActuatorSecurityConfig extends WebSecurityConfigurerAdapter {
     // shutdown에는 보안이 필요하기 때문에, Shutdown request를 할 땐, 보안이 필요하다.
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // 헤더 설정
-        http.headers().defaultsDisabled().contentTypeOptions().and().cacheControl().and().frameOptions().sameOrigin();
-        http.headers().xssProtection().block(false);
-        http
-                .authorizeRequests()
-                .requestMatchers(EndpointRequest.to(ShutdownEndpoint.class))
-                .hasRole("ACTUATOR_ADMIN")
-                .requestMatchers(EndpointRequest.toAnyEndpoint())
-                .permitAll()
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-                .permitAll()
-                .antMatchers("/")
-                .permitAll()
-                .antMatchers("/**")
-                .authenticated()
-                .and()
-                .httpBasic();
+        http.httpBasic()
+            .and()
+            .authorizeRequests()
+            .requestMatchers(EndpointRequest.to(ShutdownEndpoint.class))
+            .hasRole("ACTUATOR_ADMIN")
+            .requestMatchers(EndpointRequest.toAnyEndpoint())
+            .permitAll()
+            .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+            .permitAll()
+            .antMatchers("/")
+            .permitAll()
+            .antMatchers("/**")
+            .permitAll()
+            .and()
+            .csrf()
+            .disable();
     }
 
     /**
-     * shutdown 권한이 있는 유저 생성
+     * shutdown 권한이 있는 유저 생성(admin만 shutdown이 가능하다.)
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
