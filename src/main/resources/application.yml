@@ -1,1 +1,13 @@
+management:
 
+  # Http상에서
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+        exclude: health,info
+
+  # 세부정보 표시하
+  endpoint:
+    health:
+      show-details: always
