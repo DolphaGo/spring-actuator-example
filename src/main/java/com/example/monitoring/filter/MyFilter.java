@@ -14,12 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
-@WebFilter(value = "/actuator/**")
-@Component
+//@WebFilter(urlPatterns = "/actuator") // TODO: 이거 안먹네.. 이런 urlPattern이 아니어도 다 거쳐가는걸..
 public class MyFilter extends OncePerRequestFilter {
-    // 실제 필터링 로직은 doFilterInternal 에 들어감
     // Security Filter로 들어가기 전에 request check용
-    // 테스트 결과 : Spring Security Filter 이후에 거치는 필터
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
         log.info("/{} {}", request.getMethod(), request.getRequestURL());

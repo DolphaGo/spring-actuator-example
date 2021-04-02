@@ -11,13 +11,19 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.example.monitoring.filter.MyFilter;
+import com.example.monitoring.filter.MyFilterSecurityConfig;
+
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @EnableWebSecurity
+@RequiredArgsConstructor
 public class ActuatorSecurityConfig extends WebSecurityConfigurerAdapter {
-
+    private MyFilter myFilter;
     /*
         This spring security configuration does the following
 
@@ -33,22 +39,24 @@ public class ActuatorSecurityConfig extends WebSecurityConfigurerAdapter {
     // shutdown에는 보안이 필요하기 때문에, Shutdown request를 할 땐, 보안이 필요하다.
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic()
-            .and()
-            .authorizeRequests()
-            .requestMatchers(EndpointRequest.to(ShutdownEndpoint.class))
-            .hasRole("ACTUATOR_ADMIN")
-            .requestMatchers(EndpointRequest.toAnyEndpoint())
-            .permitAll()
-            .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
-            .permitAll()
-            .antMatchers("/")
-            .permitAll()
-            .antMatchers("/**")
-            .permitAll()
-            .and()
-            .csrf()
-            .disable();
+        http
+                .httpBasic()
+                .and()
+                .authorizeRequests()
+                .requestMatchers(EndpointRequest.to(ShutdownEndpoint.class))
+                .hasRole("ACTUATOR_ADMIN")
+                .requestMatchers(EndpointRequest.toAnyEndpoint())
+                .permitAll()
+                .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
+                .permitAll()
+                .antMatchers("/")
+                .permitAll()
+                .antMatchers("/**")
+                .permitAll()
+                .and()
+                .csrf()
+                .disable()
+                .apply(new MyFilterSecurityConfig());
     }
 
     /**
